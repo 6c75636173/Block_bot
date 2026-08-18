@@ -19,5 +19,4 @@ if not TOKEN:
     raise RuntimeError(
         os.error("TOKEN environment variable not set. Please set it in your .env file or system environment variables.")
     )
-os.success("TOKEN environment variable loaded successfully.")
 bot.run(TOKEN) 
