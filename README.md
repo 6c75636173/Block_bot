@@ -167,10 +167,10 @@ Le projet évoluera progressivement.
 
 ### Phase 1 — Fondations
 
-* [ ] Création de l'architecture
-* [ ] Système de configuration
-* [ ] Connexion à Discord
-* [ ] Système de modules / Cogs
+* [*] Création de l'architecture
+* [*] Système de configuration
+* [*] Connexion à Discord
+* [*] Système de modules / Cogs
 * [ ] Gestion de la base de données
 
 ### Phase 2 — Administration
