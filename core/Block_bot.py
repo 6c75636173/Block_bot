@@ -6,26 +6,47 @@ from discord.ext import commands
 from discord import app_commands
 from dotenv import load_dotenv
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, BASE_DIR)
+
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.abspath(__file__)
+    )
+)
+
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
+load_dotenv()
+
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+if not TOKEN:
+    raise RuntimeError(
+        "DISCORD_TOKEN environment variable not set. "
+        "Please set it in your .env file."
+    )
 
 intents = discord.Intents.default()
+
 intents.message_content = True
 intents.members = True
 intents.guilds = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-load_dotenv()
+bot = commands.Bot(
+    command_prefix="!",
+    intents=intents
+)
 
 @bot.event
 async def setup_hook():
 
     try:
-        # Chargement du module Ping
         await bot.load_extension("cogs.ping")
 
-        print("\033[92m[OK]\033[0m Cog Ping chargé.")
+        print(
+            "\033[92m[OK]\033[0m "
+            "Cog Ping chargé."
+        )
 
     except Exception as error:
         print(
@@ -35,12 +56,12 @@ async def setup_hook():
         raise
 
     try:
-        # Synchronisation globale des commandes slash
         synced_commands = await bot.tree.sync()
 
         print(
             f"\033[92m[OK]\033[0m "
-            f"{len(synced_commands)} commande(s) slash synchronisée(s)."
+            f"{len(synced_commands)} commande(s) slash "
+            f"synchronisée(s) globalement."
         )
 
     except Exception as error:
@@ -63,10 +84,4 @@ async def on_ready():
         f"ID du bot : {bot.user.id}"
     )
 
-
-TOKEN = os.getenv("DISCORD_TOKEN")
-if not TOKEN:
-    raise RuntimeError(
-        os.error("TOKEN environment variable not set. Please set it in your .env file or system environment variables.")
-    )
-bot.run(TOKEN) 
+bot.run(TOKEN)
