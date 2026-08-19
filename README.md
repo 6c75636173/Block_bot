@@ -95,7 +95,7 @@ L'idée est que chaque module puisse être développé et maintenu de manière i
 
 ---
 
-## 📋 Fonctionnalités prévues
+## 📈 Roadmap
 
 Le projet étant développé progressivement, les fonctionnalités seront ajoutées au fur et à mesure.
 
@@ -160,47 +160,6 @@ Le projet étant développé progressivement, les fonctionnalités seront ajout�
 > Cette liste est évolutive et non définitive, elle est amenée a évoluer.
 
 ---
-
-## 📈 Roadmap
-
-Le projet évoluera progressivement.
-
-### Phase 1 — Fondations
-
-* [*] Création de l'architecture
-* [*] Système de configuration
-* [*] Connexion à Discord
-* [*] Système de modules / Cogs
-* [ ] Gestion de la base de données
-
-### Phase 2 — Administration
-
-* [ ] Commandes administratives
-* [ ] Modération
-* [ ] Logs
-* [ ] Permissions
-
-### Phase 3 — Communauté
-
-* [ ] Bienvenue
-* [ ] Tickets
-* [ ] XP / niveaux
-* [ ] Fun
-
-### Phase 4 — Systèmes avancés
-
-* [ ] Économie
-* [ ] Sécurité avancée
-* [ ] Automatisation
-* [ ] Statistiques
-
-### Phase 5 — Amélioration continue 🚀
-
-* [ ] Optimisation
-* [ ] Corrections de bugs
-* [ ] Nouvelles fonctionnalités
-* [ ] Amélioration de l'expérience utilisateur
-* [ ] Contributions de la communauté
 
 La roadmap pourra évidemment être modifiée en fonction des besoins et des exigences requises.
 
