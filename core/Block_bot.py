@@ -7,6 +7,7 @@ BASE_DIR = os.path.dirname(
         os.path.abspath(__file__)
     )
 )
+
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
@@ -18,9 +19,11 @@ import core
 import cogs
 import data
 
+
 load_dotenv()
 
 intents = discord.Intents.default()
+
 intents.message_content = True
 intents.members = True
 intents.guilds = True
@@ -31,9 +34,20 @@ bot = commands.Bot(
 )
 
 async def setup_hook_func():
-    await cogs.ping.setup(bot)
+
+    await bot.load_extension("cogs.ping")
+    await bot.load_extension("cogs.items_system")
+
+    synced = await bot.tree.sync()
+
+    print(
+        f"\033[92m[OK]\033[0m "
+        f"{len(synced)} commande(s) slash synchronisée(s)."
+    )
+
 
 bot.setup_hook = setup_hook_func
+
 
 @bot.event
 async def on_ready():
