@@ -33,14 +33,10 @@ SPECIAL_ITEMS = {
     "🎪 Ticket VIP":          {"description": "Accès VIP illimité",                  "value": 200},
     "🌟 Étoile Filante":      {"description": "Une étoile capturée",                 "value": 350},
     "🎁 Boîte Cadeau Géante": {"description": "Une énorme boîte cadeau",             "value": 250},
-    # craftable items
     "🌈 Épée Diamantée":      {"description": "Une épée forgée avec un diamant",     "value": 2000},
     "🔥 Orbe Enflammé":       {"description": "Un orbe d'une puissance incroyable",  "value": 1200},
     "👑 Masque Royal":        {"description": "Un masque de royauté absolue",        "value": 800},
 }
-
-CRAFTED_ITEMS = {"🌈 Épée Diamantée", "🔥 Orbe Enflammé", "👑 Masque Royal"}
-DROPPABLE_ITEMS = [item for item in SPECIAL_ITEMS if item not in CRAFTED_ITEMS]
 
 _cooldowns = load_data(COOLDOWNS_FILE)
 
