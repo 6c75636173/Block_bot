@@ -1,2 +1,16 @@
 .env
+token.txt
+token/
+
+
+bot_data/
+
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+
+.vscode/
 *.json
