@@ -42,6 +42,7 @@ async def setup_hook_func():
     await bot.load_extension("cogs.ping")
     await bot.load_extension("cogs.items_system")
     await bot.load_extension("cogs.economy")
+    await bot.load_extension("cogs.quotidient")
 
     print("\033[92m[OK]\033[0m Cogs chargés.")
 
