@@ -152,3 +152,7 @@ async def setup_quotidien(bot):
     
         await interaction.response.send_message(embed=embed)
 
+
+async def setup(bot):
+    await setup_quotidien(bot)
+
