@@ -556,4 +556,9 @@ async def setup_items_system(bot, users_data, save_users_callback):
         await interaction.response.send_message(embed=embed, view=MarketMenuView(), ephemeral=True)
 
 async def setup(bot):
-    await setup_items_system(bot, {}, lambda: None)
+    import core
+
+    def save_users():
+        core.save_data(core.USERS_FILE, core.users_data)
+
+    await setup_items_system(bot, core.users_data, save_users)
