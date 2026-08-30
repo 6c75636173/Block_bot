@@ -1,16 +1,16 @@
+# Secrets — ne jamais committer
 .env
 token.txt
 token/
 
-
+# Données du bot (état runtime, propre à chaque déploiement)
 bot_data/
 
-
+# Python
 __pycache__/
 *.pyc
 .venv/
 venv/
 
-
+# Éditeurs
 .vscode/
-*.json
