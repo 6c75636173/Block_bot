@@ -1,4 +1,4 @@
-# 📖 Documentation technique — Bot Ulysse
+# 📖 Documentation technique — Bot block-bot
 
 > Pour la liste de toutes les commandes, voir `COMMANDES.md`. Ce fichier couvre
 > l'architecture du code, la configuration, le fonctionnement interne, et l'historique
@@ -13,7 +13,7 @@
    DISCORD_TOKEN=ton_token_ici
    ```
 2. `pip install -r requirements.txt`
-3. `python main/Ulysse.py`
+3. `python main/block_bot.py`
 
 Le bot refuse de démarrer si `DISCORD_TOKEN` est absent du `.env`.
 
@@ -22,7 +22,7 @@ Le bot refuse de démarrer si `DISCORD_TOKEN` est absent du `.env`.
 ## 🏗️ Architecture du code
 
 Depuis la réorganisation du 20/08/2026, le code est en arborescence par dossiers façon
-`cogs/` : `main/Ulysse.py` ne contient plus aucune commande — c'est un pur bootstrap qui
+`cogs/` : `main/block_bot.py` ne contient plus aucune commande — c'est un pur bootstrap qui
 ajoute chaque sous-dossier de `cogs/` au chemin Python, crée le bot, connecte `core/`,
 charge tous les cogs, et lance.
 
@@ -53,7 +53,7 @@ viez_bot/
 │   ├── temp_roles.json         ← Rôles temporaires achetés en boutique et leur expiration
 │   └── warnings.json           ← Avertissements de modération
 ├── main/
-│   ├── Ulysse.py                ← Bootstrap : ajoute cogs/*/ au path, crée le bot, charge tout, lance
+│   ├── block_bot.py             ← Bootstrap : ajoute cogs/*/ au path, crée le bot, charge tout, lance
 │   │
 │   ├── core/                    ← État partagé, utilisé par tous les cogs
 │   │   ├── __init__.py           ← Ré-exporte config+database+bot (import core fonctionne comme avant)
@@ -103,7 +103,7 @@ viez_bot/
 
 Les fichiers dans `cogs/*/` s'importent entre eux de façon "plate" (`import core`,
 `import items_system`, `from utils import ...`) exactement comme avant la mise en
-dossiers — **aucun import interne n'a eu besoin d'être réécrit**. `Ulysse.py` ajoute
+dossiers — **aucun import interne n'a eu besoin d'être réécrit**. `block_bot.py` ajoute
 chaque sous-dossier de `cogs/` au chemin de recherche Python (`sys.path`) au tout début,
 avant d'importer quoi que ce soit ; Python trouve donc chaque fichier peu importe dans
 quel sous-dossier il se trouve. C'est un choix volontairement simple plutôt que des
@@ -113,7 +113,7 @@ de modifier chaque fichier déplacé.
 ### Le pattern `setup_xxx(bot, ...)`
 
 Chaque cog expose une fonction `async def setup_xxx(bot, ...)` appelée depuis
-`Ulysse.py::setup_hook()`. Cette fonction attache ses commandes à `bot.tree` directement
+`block_bot.py::setup_hook()`. Cette fonction attache ses commandes à `bot.tree` directement
 — pas de système de Cogs discord.py (classes `commands.Cog`) : un choix volontaire pour
 rester simple et cohérent avec le style déjà en place, plutôt qu'une réécriture complète
 en classes.
@@ -126,7 +126,7 @@ utilisateur (`core.users_data`), la boutique (`core.shop_items`), les fonctions
 quotidiens — réparti en 3 fichiers (`config.py`, `database.py`, `bot.py`) mais ré-exporté
 intégralement par `core/__init__.py`, donc `import core` puis `core.xxx` fonctionne
 exactement comme avec l'ancien `core.py` monolithique (avant la mise en dossiers). `core.bot` est rempli une seule
-fois par `Ulysse.py` via `core.init_bot(bot)` au démarrage.
+fois par `block_bot.py` via `core.init_bot(bot)` au démarrage.
 
 Les modules préexistants (`business_system.py`, `economy_extensions.py`, etc.) reçoivent
 `core.users_data` en paramètre plutôt que de l'importer directement — c'est le même
@@ -233,7 +233,7 @@ en a un. Voir `cogs/events/events.py`.
 
 ### Redémarrage et synchronisation des commandes
 Après un redémarrage, les commandes slash peuvent prendre jusqu'à **1 heure** pour se
-synchroniser globalement sur Discord (souvent bien plus rapide en pratique). `Ulysse.py`
+synchroniser globalement sur Discord (souvent bien plus rapide en pratique). `block_bot.py`
 appelle `bot.tree.sync()` à chaque `on_ready()`, ce qui remplace intégralement la liste de
 commandes globales par celle du code actuel — donc les anciens noms disparaissent
 automatiquement avec le temps, sans action supplémentaire.
@@ -245,7 +245,7 @@ automatiquement avec le temps, sans action supplémentaire.
    pour des tests rapides), ces commandes propres au serveur ne sont **pas** effacées par
    un sync global. Utilise `clear_commands.py` (à la racine de `main/`) une seule fois :
    il vide les commandes globales ET celles de chaque serveur où le bot est présent, puis
-   il faut relancer `Ulysse.py` normalement pour resynchroniser proprement. Supprime le
+   il faut relancer `block_bot.py` normalement pour resynchroniser proprement. Supprime le
    script après usage.
 
 Les données persistantes sont toutes dans `bot_data/` et survivent aux redémarrages,
@@ -258,7 +258,7 @@ cooldowns compris.
 ### Passe de nettoyage initiale
 | Problème | Solution appliquée |
 |---|---|
-| Token hardcodé dans `Ulysse.py` | Lu depuis `DISCORD_TOKEN` (`.env`). Le bot refuse de démarrer si absent. |
+| Token hardcodé dans `block_bot.py` | Lu depuis `DISCORD_TOKEN` (`.env`). Le bot refuse de démarrer si absent. |
 | `items_system` importé deux fois | Doublon supprimé. |
 | Cooldowns perdus au redémarrage | Persistés dans `cooldowns.json`. |
 | `SPECIAL_ITEMS` dupliqué dans 2 fichiers | Centralisé dans `utils/helpers.py`. |
@@ -300,21 +300,21 @@ référençait encore l'ancien nom `/give` au lieu de `/donner`) a été conserv
   ré-exportent tout leur contenu, donc `import core` / `core.xxx` et
   `from utils import xxx` continuent de fonctionner sans qu'aucun fichier existant
   n'ait eu besoin d'être modifié pour ça.
-- `Ulysse.py` ajoute chaque sous-dossier de `cogs/` au chemin Python (`sys.path`) au
+- `block_bot.py` ajoute chaque sous-dossier de `cogs/` au chemin Python (`sys.path`) au
   démarrage, donc les imports "plats" internes à chaque fichier (`import core`,
   `import items_system`...) fonctionnent sans réécriture — seuls les noms de fichiers
   déplacés (ex: `addon_admin.py` → `cogs/admin/admin.py`) et leur import dans
-  `Ulysse.py` ont changé.
+  `block_bot.py` ont changé.
 - `is_admin()`, `ConfirmDangerView` et `ask_confirmation()` (auparavant définis dans
   `addon_admin.py`) ont été généralisés et déplacés dans `utils/permissions.py`,
   réutilisables par n'importe quel autre cog à l'avenir.
 
 ### Refonte architecturale — addons par domaine
-- `Ulysse.py` réduit de **2588 à 97 lignes** : ne contient plus que le bootstrap (création
+- `block_bot.py` réduit de **2588 à 97 lignes** : ne contient plus que le bootstrap (création
   du bot, chargement des addons, lancement).
 - Tout le reste réparti en cogs par domaine sous `cogs/` plus `core/` pour l'état
   partagé (voir la section Architecture plus haut pour le détail complet).
-- `/verification` était coupé en deux (une partie dans `Ulysse.py`, une partie dans
+- `/verification` était coupé en deux (une partie dans `block_bot.py`, une partie dans
   `verification_system.py`) — entièrement consolidé dans `verification_system.py`.
 - Nettoyage des commentaires superflus dans tous les fichiers (ceux qui ne faisaient que
   répéter ce que la ligne suivante fait déjà) — gardés uniquement ceux expliquant une
