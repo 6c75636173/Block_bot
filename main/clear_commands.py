@@ -10,7 +10,7 @@ Usage :
 1. Place ce fichier à côté de block_bot.py (dans main/)
 2. Lance-le une fois : python clear_commands.py
 3. Attends le message "Nettoyage terminé"
-4. Relance ton bot normalement (block_bot.py) — il resynchronisera les 64 commandes actuelles
+4. Relance ton bot normalement (block_bot.py) — il resynchronisera les commandes actuelles
 5. Supprime ce fichier, il ne sert qu'une fois
 """
 

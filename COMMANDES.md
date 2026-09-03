@@ -2,7 +2,7 @@
 
 > Toutes les commandes ci-dessous ont été extraites **directement du bot en exécution**
 > (`bot.tree.get_commands()`), pas recopiées à la main — donc garanties synchrones avec le code.
-> 64 commandes top-level (contre 97 avant le grand nettoyage), regroupées en sous-commandes
+> 54 commandes top-level, regroupées en sous-commandes
 > là où ça avait du sens. La monnaie du bot s'appelle **pièces**.
 >
 > Pour l'architecture du code, la configuration technique et l'historique des correctifs,
@@ -16,7 +16,6 @@
 |---|---|
 | `/profil [@membre]` | Profil complet : niveau, XP, pièces, streak, défis, objets |
 | `/leaderboard [categorie]` | Classement du serveur — choix : XP, Plus riches, Plus gros joueurs, Plus gros perdants, Business |
-| `/balance` | Solde de pièces |
 | `/inventaire` | Inventaire complet (objets boutique + items spéciaux) |
 
 **Rangs disponibles :**
@@ -53,7 +52,6 @@
 | `/effacer_avertissements [@membre]` | Effacer tous les avertissements (admin) |
 | `/expulser [@membre] [raison]` | Expulser un membre |
 | `/bannir [@membre] [raison]` | Bannir un membre |
-| `/isoler [@membre] [durée] [raison]` | Isoler un membre (timeout Discord, max 28 jours) |
 | `/nettoyer [nombre]` | Supprimer des messages (max 100) |
 
 ---
@@ -80,7 +78,6 @@ restaurés à la libération. Vérification des libérations automatiques toutes
 | `/roulette [mise]` | Roulette russe — 1 chance sur 5 de mourir, pot x2 par round (mise max 100) |
 | `/roulette_sovietique [mise]` | 5 chances sur 6 de mourir, x2.5 si survie (mise max 1000) |
 | `/machine_a_sous [mise]` | Machine à sous avec jackpot progressif (cooldown 10s après la fin du spin) |
-| `/info_machine` | Infos sur les symboles de la machine à sous |
 | `/des [nombre] [faces]` | Lancer des dés (1-10 dés, 4/6/8/12/20 faces) |
 | `/poker [@adversaire] [mise]` | Poker Texas Hold'em 1v1 (buy-in 10-1000) |
 | `/course [cheval] [mise]` | Course de chevaux (10-1000 pièces, cooldown 2min) |
@@ -101,19 +98,17 @@ restaurés à la libération. Vérification des libérations automatiques toutes
 
 | Sous-commande | Description |
 |---|---|
-| `/fun gifler [@membre]` | Gifle quelqu'un (virtuellement) |
 | `/fun calin [@membre]` | Câlin |
 | `/fun clasher [@membre]` | Insulte gentiment quelqu'un |
 | `/fun boule_magique [question]` | Boule magique |
 | `/fun pp [@membre]` | Mesure le pp (déterministe par ID) |
-| `/fun shipper [@p1] [@p2]` | Compatibilité entre deux personnes |
+| `/fun paff [@membre]` | Mesure le paff (déterministe par ID) |
 | `/fun duel [@membre] [mise]` | Duel pierre-papier-ciseaux avec mise (min. 10 pièces) |
 
 **Hors groupe :**
 
 | Commande | Description |
 |---|---|
-| `/rate [chose]` | Note quelque chose sur 10 |
 
 ---
 
@@ -186,13 +181,12 @@ restaurés à la libération. Vérification des libérations automatiques toutes
 
 | Commande | Description |
 |---|---|
-| `/ticket_acheter [type]` | Acheter un ticket à gratter |
-| `/tickets` | Voir les types de tickets disponibles et gratter les tiens |
-| `/caisse_acheter [type]` | Acheter une caisse |
-| `/caisses` | Voir/ouvrir tes caisses |
+| `/tickets acheter [type]` | Voir la description puis acheter et gratter un ticket |
+| `/tickets voir` | Voir les tickets disponibles, leurs prix et leurs descriptions |
+| `/caisses acheter [type]` | Voir le contenu possible puis acheter et ouvrir une caisse |
+| `/caisses voir` | Voir les caisses disponibles, leurs prix et leurs contenus |
 | `/objet_vendre [item]` | Vendre un objet (80% de sa valeur, autocomplétion) |
 | `/objet_utiliser [item]` | Activer le bonus d'un objet (autocomplétion) |
-| `/objet_offrir [@membre] [item]` | Offrir un objet (autocomplétion) |
 | `/objet_fusionner [item1] [item2]` | Fusionner deux objets (autocomplétion sur les deux) |
 | `/bonus` | Voir ses bonus actifs |
 | `/fabriquer` | Voir les recettes de craft |
@@ -205,6 +199,7 @@ restaurés à la libération. Vérification des libérations automatiques toutes
 | 🍀 Lucky 7 | 25 pièces | Grille 2x3, trouve des 7 |
 | 💰 Jackpot | 50 pièces | Grille 3x3, aligne des montants |
 | 👑 Royal Scratch | 100 pièces | Grille 3x3, symboles royaux |
+| 🎁 Mystery Box | 5 pièces | Ticket 1x1, 1 chance sur 3 de gagner entre 10 et 100 pièces |
 
 **Recettes de craft :**
 
@@ -230,7 +225,6 @@ restaurés à la libération. Vérification des libérations automatiques toutes
 |---|---|
 | `/marche vendre [item] [prix] [quantite]` | Mettre en vente (prix par unité, autocomplétion, quantité par défaut : 1) |
 | `/marche acheter [listing_id] [quantite]` | Acheter (total ou partiel) |
-| `/marche offrir [@membre] [item] [prix]` | Offre directe à un joueur |
 | `/marche annuler [listing_id]` | Retirer son annonce (rend toute la quantité restante) |
 
 > **Limite :** Une seule annonce par item par vendeur, maximum **3 types d'items différents** en vente simultanément par joueur.
@@ -254,7 +248,6 @@ restaurés à la libération. Vérification des libérations automatiques toutes
 | Commande | Description |
 |---|---|
 | `/donner [@membre] [montant] [raison]` | Donner des pièces (min. 10, raison optionnelle) |
-| `/pret [@membre] [montant] [intérêt%]` | Proposer un prêt (défaut 20%) — rembourse ensuite avec `/donner` |
 | `/echanger [@membre] [objet]` | Proposer un échange d'objet |
 
 ---
@@ -310,7 +303,6 @@ semaine tous les 7 jours (+1000 pièces).
 | `/verification verifier [code]` | Se vérifier avec le code du captcha | Tous |
 | `/verification nouveau_captcha` | Demander un nouveau captcha | Tous |
 | `/verification verifier_membre [@membre]` | Vérifier manuellement | Modérateur |
-| `/verification info` | Voir la config actuelle | Tous |
 
 Captcha visuel dans le salon configuré, expire après 10 minutes.
 
@@ -327,8 +319,6 @@ Captcha visuel dans le salon configuré, expire après 10 minutes.
 |---|---|
 | `/journaux configurer [#salon]` | Choisir le salon de logs |
 | `/journaux evenements` | Activer/désactiver les événements loggés (menu à boutons) |
-| `/journaux desactiver` | Tout désactiver |
-| `/journaux info` | Voir la configuration actuelle |
 
 Un salon de logs configuré reçoit aussi automatiquement les erreurs de commandes inattendues.
 

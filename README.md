@@ -70,9 +70,9 @@ viez_bot/
 │   └── cogs/                    ← Un dossier par domaine
 │       ├── profil/profil.py           ← /profil, /leaderboard
 │       ├── economy/
-│       │   ├── boutique.py             ← /boutique, /acheter, /balance, /inventaire
-│       │   ├── economie.py             ← /donner, /pret
-│       │   ├── quotidien.py            ← /quotidien, /defi
+│       │   ├── boutique.py             ← /boutique, /acheter, /inventaire
+│       │   ├── economie.py             ← /donner
+│       │   ├── quotidien.py            ← /quotidien
 │       │   ├── business_system.py      ← /entreprise
 │       │   ├── items_system.py         ← /objet_*, groupe /marche
 │       │   ├── addictive_systems.py    ← tickets, caisses, missions
@@ -80,14 +80,14 @@ viez_bot/
 │       │   └── economy_extensions.py   ← mariage, gang, succès, travailler/crime/braquage, duel
 │       ├── casino/
 │       │   ├── casino.py               ← /pile_ou_face, /des, /roulette, /roulette_sovietique, /blackjack
-│       │   ├── slots_and_time.py       ← /machine_a_sous, /info_machine, /jackpot, /periode
+│       │   ├── slots_and_time.py       ← /machine_a_sous, /periode
 │       │   ├── poker_system.py         ← /poker
 │       │   └── horse_race.py           ← /course
-│       ├── fun/fun.py                 ← groupe /fun + /rate
+│       ├── fun/fun.py                 ← groupe /fun
 │       ├── paris/paris.py             ← /creer_pari, /parier, /fermer_pari, /paris
 │       ├── admin/admin.py             ← /admin (panneau à boutons complet)
 │       ├── moderation/
-│       │   ├── moderation.py           ← /avertir, /expulser, /bannir, /isoler, /nettoyer...
+│       │   ├── moderation.py           ← /avertir, /expulser, /bannir, /nettoyer...
 │       │   └── jail_system.py          ← /emprisonner, /emprisonner_temporaire, /liberer
 │       ├── verification/verification_system.py  ← groupe /verification
 │       ├── logs/logs_system.py        ← groupe /journaux + événements de logs
@@ -275,7 +275,7 @@ cooldowns compris.
 | Item inventaire décrit en dur une 3ᵉ fois dans `/inventaire` | Source unique désormais (`utils.SPECIAL_ITEMS` + `items_system.items_inventory`). |
 
 ### Regroupement, panneau admin & renommage FR
-- **97 → 64 commandes**, tout en français ; groupes `/admin`, `/verification`, `/gang`,
+- **97 → 54 commandes top-level**, tout en français ; groupes `/admin`, `/verification`, `/gang`,
   `/marche`, `/journaux`, `/fun` ; fusions `/profil`, `/quotidien` ; `coins` → `pieces`
   partout avec migration automatique.
 - `/admin` converti d'un groupe à sous-commandes en **panneau à boutons** (une seule
@@ -288,8 +288,7 @@ cooldowns compris.
 ### Tentative de système multilingue (annulée)
 Un système `/config` + package `i18n/` (français/anglais, un domaine traduit comme preuve
 de concept) a été construit puis retiré à la demande explicite : retour à un bot
-uniquement en français. Le correctif de bug trouvé au passage (le footer de `/pret`
-référençait encore l'ancien nom `/give` au lieu de `/donner`) a été conservé.
+uniquement en français.
 
 ### Réorganisation en dossiers `cogs/`
 - Passage d'une arborescence à plat (26 fichiers `.py` directement dans `main/`) à des
@@ -346,6 +345,5 @@ référençait encore l'ancien nom `/give` au lieu de `/donner`) a été conserv
 
 | Sujet | Pourquoi ce n'est pas fait |
 |---|---|
-| `/defi` et `/missions` sont deux systèmes de défis/objectifs parallèles | Les fusionner change les récompenses et l'expérience joueur — décision côté produit. |
+| Tickets et caisses sont deux systèmes séparés | Les mécaniques restent distinctes, mais leurs commandes sont regroupées sous `/tickets` et `/caisses`. |
 | Architecture JSON vs SQLite | Le bot self-hosté reste en JSON, choix assumé pour la simplicité de déploiement. Une architecture SQLite + API + dashboard web a été envisagée à un moment mais n'a jamais été branchée sur ce déploiement — si des traces de cette idée existent encore quelque part, elles sont obsolètes. |
-| Fusion tickets/caisses | Deux mécaniques "pièces → item random" proches, mais gardées séparées à la demande explicite. |
