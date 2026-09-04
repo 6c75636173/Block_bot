@@ -8,7 +8,7 @@
 
 ## 🚀 Démarrage
 
-1. Copie `.env.example` en `.env` et colle ton token Discord :
+1. Copie `.env.example` en `.env` et collez votre token Discord :
    ```
    DISCORD_TOKEN=ton_token_ici
    ```
